@@ -1,0 +1,18 @@
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: multiple-appset
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    namespace: gitops
+    name: in-cluster
+  source:
+    path: 'gitops'
+    repoURL: 'https://github.com/mathieulaude/appset-syncwave.git'
+    targetRevision: HEAD
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

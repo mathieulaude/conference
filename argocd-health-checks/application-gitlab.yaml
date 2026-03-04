@@ -1,0 +1,18 @@
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gitlab-instance
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    namespace: gitlab
+    name: in-cluster
+  source:
+    path: 'gitlab'
+    repoURL: 'https://github.com/mathieulaude/appset-syncwave.git'
+    targetRevision: HEAD
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
