@@ -93,6 +93,10 @@ strong {
   color: #003366;
 }
 
+section.center {
+  text-align: center;
+}
+
 .container{
   display: flex;
 }
