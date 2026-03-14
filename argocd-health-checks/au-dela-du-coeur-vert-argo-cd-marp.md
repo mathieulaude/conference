@@ -16,9 +16,9 @@ class: lead
 ## Optimiser vos déploiements Argo CD  
 
 
-![width:200px bg left:30%](francedevops_logo.jpg)
+![width:200px bg right:38%](devfestnoz.png)
 
-France Devops - Mardi 3 mars - 12h
+DevFestNoz - Lannion - Jeudi 12 mars
 
 ---
 
@@ -68,6 +68,39 @@ Moteur de déploiement continu **GitOps** en synchronisant automatiquement  :
 <!--
 _footer: Source : [https://viblo.asia](https://viblo.asia/p/kubernetes-practice-trien-khai-nodejs-microservice-tren-kubernetes-phan-2-automatic-update-config-with-argocd-Qbq5QBMJKD8)
 -->
+
+---
+
+## 📦 Préambule - L’objet *Application*
+
+Pour piloter cette synchronisation, Argo CD s'appuie sur un objet **Application** qui définit :
+
+- 📁 **Source** : dépôt Git, chart Helm ou repo Kustomize  
+- 🎯 **Destination** : cluster et namespace Kubernetes  
+- 🔄 **Sync Policy** : manuel ou automatique
+
+---
+
+## 🗂 Préambule - Exemple
+
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: demo-app
+spec:
+  source:
+    repoURL: https://github.com/example/app-config
+    path: manifests
+    targetRevision: main
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: demo
+  syncPolicy:
+    automated:
+      enabled: true
+      prune: true
+````
 
 ---
 
@@ -241,7 +274,6 @@ Avec custom check :
 
 ---
 
-
 ## ✍️ Cas d'usage n°1 — Gitlab
 
 ```lua
@@ -259,18 +291,18 @@ end
 return health_status
 ```
 
+---
+
 ## 🧪 Demo
 
 
 [![](https://mermaid.ink/img/pako:eNqNk9FumzAUhl_F8hRxQxjELKVoipSRqRftSpRElbaxCwMniSWwmW2mZikPtOfYi82BJVnCJs1X9v9_Pv_B2HuciRxwiAeDPeNMh2hv6S2UYIVWShVYNurWT1QymhagLIMgq5KspHIXiUJIg75ar9eWfVRX8KxPjuu6Z-edkDnIk0cIMV7BOFxJCjLB836ABqnZtdw0zWCQ8I2k1RatZglPODJD1Wkn3Qfqc4KjolZmO7qvU5AcNKgEfzmyF_zj0jP8Iy1BVTSDEFG5EVne4uiPMV3cxQacGjeaXbjA839UHl1W3jBd0HSodqa1shcQzw19x_QDTVFcgaRayP_MIX_L6QVEi3NAZI5HlGgBStQygx47ez9_iD-e-bepnCxXS_QaLUF-YxkoM50_RchxnH6TV90ejg4Nh5OXaVUV7GsNL6aXzornrRGnypTt67OfP6pCMGN0DXVmtEBDZzj5rWEbbyTLcahlDTYuQZb0sMT7A53g9kInODTTHNa0LnSCE96YbRXln4QojzulqDdbHK5pocyqrnKqYcaoOeTypErzWYcrXXONwzEZt0VwuMfPOLwljucS3_W8wHeDkUtsvMMhGTnEJePAHxF_7N16fmPj722q6xgoIDeu7wXeG_fmUA1yZn77h-6Vto-1-QUcZx7S?type=png)](https://mermaid.live/edit#pako:eNqNk9FumzAUhl_F8hRxQxjELKVoipSRqRftSpRElbaxCwMniSWwmW2mZikPtOfYi82BJVnCJs1X9v9_Pv_B2HuciRxwiAeDPeNMh2hv6S2UYIVWShVYNurWT1QymhagLIMgq5KspHIXiUJIg75ar9eWfVRX8KxPjuu6Z-edkDnIk0cIMV7BOFxJCjLB836ABqnZtdw0zWCQ8I2k1RatZglPODJD1Wkn3Qfqc4KjolZmO7qvU5AcNKgEfzmyF_zj0jP8Iy1BVTSDEFG5EVne4uiPMV3cxQacGjeaXbjA839UHl1W3jBd0HSodqa1shcQzw19x_QDTVFcgaRayP_MIX_L6QVEi3NAZI5HlGgBStQygx47ez9_iD-e-bepnCxXS_QaLUF-YxkoM50_RchxnH6TV90ejg4Nh5OXaVUV7GsNL6aXzornrRGnypTt67OfP6pCMGN0DXVmtEBDZzj5rWEbbyTLcahlDTYuQZb0sMT7A53g9kInODTTHNa0LnSCE96YbRXln4QojzulqDdbHK5pocyqrnKqYcaoOeTypErzWYcrXXONwzEZt0VwuMfPOLwljucS3_W8wHeDkUtsvMMhGTnEJePAHxF_7N16fmPj722q6xgoIDeu7wXeG_fmUA1yZn77h-6Vto-1-QUcZx7S)
-
 
 ---
 
 ## 🧪 Demo time
 
 [![](https://mermaid.ink/img/pako:eNqNU-1u2jAUfRXLFcqPkTQhGR8RQ-rC1EntGgSo0rbsh5NcwFoSZ7YzlVEeaM-xF9sNFBhkk-Zf9jnH9xz76m5oIlKgPm21Nrzg2icbQ68gB8M3YqbAaJP9-ZFJzuIMlIESYpSS50yuA5EJidKrxWJhtA_oHJ70kbFt-8S8FTIFeeRc10Uu4wVcQAoSUaRNAw1S80t4u922WlGxlKxckfk4KqKC4FJVvIfu-upzRIOsUnid3FUxyAI0qIh-OWjP9A8zB_UPLAdVsgR8wuRSJOlOTv5YN9PbEIU3yAbjYSxHr0iAHiIn74FlekWCFSRfyRCrFETpdQZvjKQO7l85_RgGnjFaMH_BzBUwqYfXtW505gJF-o-EnfOES64zFptqjU_MG0HDCapvub5nMQlLkEwL-Z8-7t98GgbB9GTw8gVTUKKSCTS043eT-_DjSV9_3Gw-I9dkBvI7T0DhdvIYEMuymiEv0tYtIKY5er4py4x_q-AZs-ypcLIjwlhh2SY-_vWzzARHYh9oTwZTYlrm6AWjbbqUPKW-lhW0aQ4yZ_WRbmp1RHeDEVEftyksWJXpiEbFFq9hJz8JkR9uSlEtVxRbnSk8VWXKNIw5w0_Oj6jEZ9WjURWa-r1ed1eE-hv6RP2Bazm269mO0_fsfsd223RNfbdjubbb7Xsd1-s6A8fbtumPnattoajv9mzPcQaD13YHq0HKse0f9tO-G_rtb9tTNwY?type=png)](https://mermaid.live/edit#pako:eNqNU-1u2jAUfRXLFcqPkTQhGR8RQ-rC1EntGgSo0rbsh5NcwFoSZ7YzlVEeaM-xF9sNFBhkk-Zf9jnH9xz76m5oIlKgPm21Nrzg2icbQ68gB8M3YqbAaJP9-ZFJzuIMlIESYpSS50yuA5EJidKrxWJhtA_oHJ70kbFt-8S8FTIFeeRc10Uu4wVcQAoSUaRNAw1S80t4u922WlGxlKxckfk4KqKC4FJVvIfu-upzRIOsUnid3FUxyAI0qIh-OWjP9A8zB_UPLAdVsgR8wuRSJOlOTv5YN9PbEIU3yAbjYSxHr0iAHiIn74FlekWCFSRfyRCrFETpdQZvjKQO7l85_RgGnjFaMH_BzBUwqYfXtW505gJF-o-EnfOES64zFptqjU_MG0HDCapvub5nMQlLkEwL-Z8-7t98GgbB9GTw8gVTUKKSCTS043eT-_DjSV9_3Gw-I9dkBvI7T0DhdvIYEMuymiEv0tYtIKY5er4py4x_q-AZs-ypcLIjwlhh2SY-_vWzzARHYh9oTwZTYlrm6AWjbbqUPKW-lhW0aQ4yZ_WRbmp1RHeDEVEftyksWJXpiEbFFq9hJz8JkR9uSlEtVxRbnSk8VWXKNIw5w0_Oj6jEZ9WjURWa-r1ed1eE-hv6RP2Bazm269mO0_fsfsd223RNfbdjubbb7Xsd1-s6A8fbtumPnattoajv9mzPcQaD13YHq0HKse0f9tO-G_rtb9tTNwY)
-
 
 ---
 
